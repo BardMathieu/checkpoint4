@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Performances index{% endblock %}
+
+{% block body %}
+    <h1>Performances index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for performance in performances %}
+            <tr>
+                <td>{{ performance.id }}</td>
+                <td>{{ performance.name }}</td>
+                <td>{{ performance.description }}</td>
+                <td>
+                    <a href="{{ path('performances_show', {'id': performance.id}) }}">show</a>
+                    <a href="{{ path('performances_edit', {'id': performance.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('performances_new') }}">Create new</a>
+{% endblock %}

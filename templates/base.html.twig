@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}WildCircus{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+    <header>
+        <nav class="navbar navbar-dark navbar-expand-lg">
+
+            <a class="navbar-brand " href="{{ path('home') }}">Wild Circus</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarResponsive" >
+                <ul class="navbar-nav">
+                    <li class="nav-item mt-2">
+                        <a class="nav-link  text-white" href="/#performances">Performances</a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link  text-white" href="#">About Us</a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link  text-white" href="{{ path('contact') }}">Contact</a>
+                    </li>
+                    {% if app.user.roles is not defined %}
+                        <li class="nav-item mt-2">
+                            <a class="nav-link  text-white" href="{{ path('security_login') }}">Connexion</a>
+                        </li>
+                    {% else %}
+                        {% for role in app.user.roles if role == 'ROLE_USER' %}
+                            <li class="nav-item mt-2">
+                                <div class="dropdown">
+                                    <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mon Compte</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Mes Information</a>
+                                        <a class="dropdown-item" href="#">Forum</a>
+                                        <a class="dropdown-item" href="{{ path('security_logout') }}">Déconnection</a>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        {% for role in app.user.roles if role == 'ROLE_ADMIN' %}
+                            <li class="nav-item mt-2">
+                                <div class="dropdown">
+                                    <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="{{ path('admin') }}">Back Office</a>
+                                        <a class="dropdown-item" href="#">Forum</a>
+                                        <a class="dropdown-item" href="{{ path('security_logout') }}">Déconnection</a>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    <li class="nav-item mt-2">
+                        <a class="nav-link  text-white" href="#">Réservation</a>
+                    </li>
+                </ul>
+            </div>
+            {% if app.user.roles is defined %}
+                <p class="text-white">Bienvenue {{ app.user.username }}</p>
+            {% endif %}
+        </nav>
+        {% block header %}{% endblock %}
+    </header>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    <footer>
+        <div class="row">
+            <div class="col-md-6 ml-5 mt-5">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2639.867161940173!2d7.762285951556267!3d48.574092979158856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4796c96d34025333%3A0x4fefbe61ce54f79a!2sWild+Code+School+-+Formation+d%C3%A9veloppeur+web!5e0!3m2!1sfr!2sfr!4v1563265729340!5m2!1sfr!2sfr" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+            <div class="col-md-5 ml-5 mt-5">
+                {% set formNews = form_contact.getForm().createView() %}
+                {{ form_start(formNews) }}
+                {{ form_widget(formNews) }}
+                {{ form_end(formNews) }}
+            </div>
+        </div>
+    </footer>
+    </body>
+</html>

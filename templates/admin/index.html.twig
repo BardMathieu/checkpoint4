@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Back Office{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Je gére mes données</h2>
+        </div>
+        <div class="col-md-2">
+            <a href="{{ path('performances_index') }}" class="btn btn-primary">Performances</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
