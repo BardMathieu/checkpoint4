@@ -3,6 +3,11 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success mt-2">
+            {{ message }}
+        </div>
+    {% endfor %}
     {% if reservation is empty  %}
         <div class="row">
             <div class="col-md-12">
@@ -30,7 +35,7 @@
                     <h5 class="mt-0">Spectacle de {{ infospectacle.ville }}</h5>
                     <p>Le Spectacle auras lieu le {{ infospectacle.date }} a 20 Heures</p>
                     <p>Réglement sur place</p>
-                    <a href="#" class="btn btn-warning">Envoyer réservation par Email</a>
+                    <a href="{{ path('reservationemail') }}" class="btn btn-warning">Envoyer réservation par Email</a>
                 </div>
             </div>
         </div>

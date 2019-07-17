@@ -7,6 +7,7 @@ use App\Repository\SpectacleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 class ReservationController extends AbstractController
 {
     /**
@@ -21,7 +22,6 @@ class ReservationController extends AbstractController
             $infolastspectacle[]=$spectacleRepository->find($lastreservation[$i]->getSpectacleId());
         }
         $infospectacle=$spectacleRepository->find($reservation[0]->getSpectacleId());
-        $user = $this->getUser();
 
         return $this->render('reservation/index.html.twig', [
             'user' => $this->getUser(),
@@ -30,5 +30,12 @@ class ReservationController extends AbstractController
             'lastreservation' =>$lastreservation,
             'infolastspectacle' =>$infolastspectacle,
         ]);
+    }
+    /**
+     * @Route("/reservationemail/", name="reservationemail")
+     */
+    public function sendEmail(){
+        $this->addFlash('success', 'Votre message a été envoyé');
+        return $this->redirectToRoute('reservation');
     }
 }

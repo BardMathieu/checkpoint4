@@ -27,45 +27,53 @@ class HomeController extends AbstractController
         if ($request->isMethod('POST')) {
             if ($form->isSubmitted() && $form->isValid()) {
                 $a=$form->getData();
-                if($a["group"]=== true && !empty($a["nbgroup"])){
+                $b=$spectacleRepository->findBy(array('id'=> $a["spectacle"]));
+                if($a["group"]=== true && !empty($a["nbgroup"]) && $b[0]->getPlace()>0){
                     $price+= 9*$a["nbgroup"];
                     $count= $a["nbgroup"];
                 }
-                if($a["ecole"]=== true && !empty($a["nbecole"])){
+                if($a["ecole"]=== true && !empty($a["nbecole"])&& $b[0]->getPlace()>0){
                     $price+= 8*$a["nbecole"];
                     $count= $a["nbecole"];
                 }
-                if($a["adulte"]=== true && !empty($a["nbadulte"])){
+                if($a["adulte"]=== true && !empty($a["nbadulte"])&& $b[0]->getPlace()>0){
                     $price+= 12*$a["nbadulte"];
                     $count= $a["nbadulte"];
                 }
-                if($a["enfant"]=== true && !empty($a["nbenfant"])){
+                if($a["enfant"]=== true && !empty($a["nbenfant"])&& $b[0]->getPlace()>0){
                     $price+= 10*$a["nbenfant"];
                     $count= $a["nbenfant"];
                 }
-                $b=$spectacleRepository->findBy(array('id'=> $a["spectacle"]));
                 foreach ($b as $value){
                     $c=$value->getPlace();
-                    $value->setPlace($c-$count);
-                    $manager->persist($value);
-                    $manager->flush();
-                }
-                $n=$reservationRepository->findBy(array('UserId' => $this->getUser()->getId()));
-                if(!empty($n)){
-                    foreach ($n as $value){
-                        $value->setArchive(0);
+                    $total=$c-$count;
+                    if($total>0) {
+                        $value->setPlace($c - $count);
                         $manager->persist($value);
                         $manager->flush();
                     }
                 }
-                $c= new Reservation();
-                $c->setUserId($this->getUser()->getId());
-                $c->setSpectacleId($a["spectacle"]);
-                $c->setPrice($price);
-                $c->setNbpersonne($count);
-                $c->setArchive(1);
-                $manager->persist($c);
-                $manager->flush();
+                if($total>0) {
+                    $n = $reservationRepository->findBy(array('UserId' => $this->getUser()->getId()));
+                    if (!empty($n)) {
+                        foreach ($n as $value) {
+                            $value->setArchive(0);
+                            $manager->persist($value);
+                            $manager->flush();
+                        }
+                    }
+                    $c = new Reservation();
+                    $c->setUserId($this->getUser()->getId());
+                    $c->setSpectacleId($a["spectacle"]);
+                    $c->setPrice($price);
+                    $c->setNbpersonne($count);
+                    $c->setArchive(1);
+                    $manager->persist($c);
+                    $manager->flush();
+                } else {
+                    $this->addFlash('success', 'Pas assez de place disponible');
+                    return $this->redirectToRoute('home');
+                }
             }
         }
         return $this->render('home/index.html.twig', [
@@ -73,6 +81,9 @@ class HomeController extends AbstractController
             'spectacles' => $spectacleRepository->findAll(),
             'a' =>$b,
             'form' => $form->createView(),
+            'form1' => $form->createView(),
+            'form2' => $form->createView(),
+            'form3' => $form->createView(),
         ]);
     }
 }

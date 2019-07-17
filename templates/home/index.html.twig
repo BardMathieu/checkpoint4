@@ -34,12 +34,13 @@
         </div>
         <div class="row my-5">
             {% for spectacle in spectacles %}
+            {% if spectacle.place >0 %}
             <div class="card mx-2" style="width: 18rem;">
                 <img src="{{ spectacle.image }}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{ spectacle.ville }}</h5>
                     <div class="card-text">
-                        <p>le : {{ spectacle.date }}</p>
+                        <p>le : {{ spectacle.id }}</p>
                         <p>Prix adulte : {{ spectacle.prixp12 }}</p>
                         <p>Prix enfant (-12) : {{ spectacle.prixm12 }}</p>
                         <p>Prix groupe (+10) : {{ spectacle.prixgroup }}</p>
@@ -48,17 +49,18 @@
                     <p>{% if app.user.roles is not defined %}
                     <a class="btn btn-primary" href="{{ path('security_login') }}">Je reserve</a>
                     {% else %}
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Je reserve</a>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{ spectacle.id }}">Je reserve</a>
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="exampleModal{{ spectacle.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{ spectacle.id }}" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel{{ spectacle.id }}">Reservation</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
+                                    {% if spectacle.id ==1 %}
                                     <div class="modal-body">
                                         {{ form_start(form) }}
                                         {{ form_row(form.spectacle, {'value':  spectacle.id  }) }}
@@ -73,6 +75,52 @@
                                         <button type="submit" class="btn btn-success">Je reserve</button>
                                         {{ form_end(form) }}
                                     </div>
+                                        {% elseif spectacle.id ==2%}
+                                        <div class="modal-body">
+                                            {{ form_start(form1) }}
+                                            {{ form_row(form1.spectacle, {'value':  spectacle.id  }) }}
+                                            {{ form_row(form1.group, {'label':'Un groupe ?'}) }}
+                                            {{ form_row(form1.nbgroup, {'label':'Nombre de personne dans le groupe'}) }}
+                                            {{ form_row(form1.ecole, {'label':'Une ecole ?'}) }}
+                                            {{ form_row(form1.nbecole, {'label':'Nombre de personne de l\'école'}) }}
+                                            {{ form_row(form1.adulte, {'label':'Un ou des adultes ?'}) }}
+                                            {{ form_row(form1.nbadulte, {'label':'Nombre d\'adultes'}) }}
+                                            {{ form_row(form1.enfant, {'label':'Un ou des enfants ?'}) }}
+                                            {{ form_row(form1.nbenfant, {'label':'Nombre d\'enfants'}) }}
+                                            <button type="submit" class="btn btn-success">Je reserve</button>
+                                            {{ form_end(form1) }}
+                                        </div>
+                                        {% elseif spectacle.id ==3%}
+                                            <div class="modal-body">
+                                                {{ form_start(form2) }}
+                                                {{ form_row(form2.spectacle, {'value':  spectacle.id  }) }}
+                                                {{ form_row(form2.group, {'label':'Un groupe ?'}) }}
+                                                {{ form_row(form2.nbgroup, {'label':'Nombre de personne dans le groupe'}) }}
+                                                {{ form_row(form2.ecole, {'label':'Une ecole ?'}) }}
+                                                {{ form_row(form2.nbecole, {'label':'Nombre de personne de l\'école'}) }}
+                                                {{ form_row(form2.adulte, {'label':'Un ou des adultes ?'}) }}
+                                                {{ form_row(form2.nbadulte, {'label':'Nombre d\'adultes'}) }}
+                                                {{ form_row(form2.enfant, {'label':'Un ou des enfants ?'}) }}
+                                                {{ form_row(form2.nbenfant, {'label':'Nombre d\'enfants'}) }}
+                                                <button type="submit" class="btn btn-success">Je reserve</button>
+                                                {{ form_end(form2) }}
+                                            </div>
+                                        {% elseif spectacle.id ==4%}
+                                            <div class="modal-body">
+                                                {{ form_start(form3) }}
+                                                {{ form_row(form3.spectacle, {'value':  spectacle.id  }) }}
+                                                {{ form_row(form3.group, {'label':'Un groupe ?'}) }}
+                                                {{ form_row(form3.nbgroup, {'label':'Nombre de personne dans le groupe'}) }}
+                                                {{ form_row(form3.ecole, {'label':'Une ecole ?'}) }}
+                                                {{ form_row(form3.nbecole, {'label':'Nombre de personne de l\'école'}) }}
+                                                {{ form_row(form3.adulte, {'label':'Un ou des adultes ?'}) }}
+                                                {{ form_row(form3.nbadulte, {'label':'Nombre d\'adultes'}) }}
+                                                {{ form_row(form3.enfant, {'label':'Un ou des enfants ?'}) }}
+                                                {{ form_row(form3.nbenfant, {'label':'Nombre d\'enfants'}) }}
+                                                <button type="submit" class="btn btn-success">Je reserve</button>
+                                                {{ form_end(form2) }}
+                                            </div>
+                                    {% endif %}
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
@@ -83,6 +131,22 @@
                     Il reste : {{ spectacle.place }} places</p>
                 </div>
             </div>
+                {% else %}
+            <div class="card mx-2" style="width: 18rem;">
+                <img src="{{ spectacle.image }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ spectacle.ville }}</h5>
+                    <div class="card-text">
+                        <p>le : {{ spectacle.id }}</p>
+                        <p>Prix adulte : {{ spectacle.prixp12 }}</p>
+                        <p>Prix enfant (-12) : {{ spectacle.prixm12 }}</p>
+                        <p>Prix groupe (+10) : {{ spectacle.prixgroup }}</p>
+                        <p>Prix Ecole : {{ spectacle.prixschool }}</p>
+                        <h2>Complet</h2>
+                    </div>
+                </div>
+            </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
