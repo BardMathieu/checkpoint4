@@ -3,7 +3,6 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-{{ dump(user) }}
     {% if reservation is empty  %}
         <div class="row">
             <div class="col-md-12">
@@ -14,7 +13,6 @@
             </div>
         </div>
         {% else %}
-        {{ dump(reservation) }}
         <div class="row">
             <div class="col-md-12 text-center">
                 <h1>Votre derniere reservation</h1>
@@ -25,5 +23,32 @@
                 </div>
             {% endfor %}
         </div>
+        <div class="container my-5">
+            <div class="media">
+                <img src="{{ infospectacle.Image }}" class="align-self-end mr-3" alt="...">
+                <div class="media-body">
+                    <h5 class="mt-0">Spectacle de {{ infospectacle.ville }}</h5>
+                    <p>Le Spectacle auras lieu le {{ infospectacle.date }} a 20 Heures</p>
+                    <p>Réglement sur place</p>
+                    <a href="#" class="btn btn-warning">Envoyer réservation par Email</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Vos Anciennes reservations</h1>
+            </div>
+        </div>
+            <div class="container">
+            {% for infolastspectacle in infolastspectacle %}
+                <div class="media my-4">
+                    <img src="{{ infolastspectacle.Image }}" class="align-self-end mr-3" alt="...">
+                    <div class="media-body">
+                        <h5 class="mt-0">Spectacle de {{ infolastspectacle.ville }}</h5>
+                        <p>Le Spectacle auras lieu le {{ infolastspectacle.date }} a 20 Heures</p>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
     {% endif %}
 {% endblock %}

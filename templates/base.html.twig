@@ -19,53 +19,44 @@
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarResponsive" >
                 <ul class="navbar-nav">
-                    <li class="nav-item mt-2">
+                    <li class="nav-item mt-2 mr-5">
                         <a class="nav-link  text-white" href="/#performances">Performances</a>
                     </li>
-                    <li class="nav-item mt-2">
+                    <li class="nav-item mt-2 mr-5">
                         <a class="nav-link  text-white" href="/#spectacles">Nos Spectacles</a>
                     </li>
-                    <li class="nav-item mt-2">
+                    <li class="nav-item mt-2 mr-5">
                         <a class="nav-link  text-white" href="{{ path('contact') }}">Contact</a>
                     </li>
                     {% if app.user.roles is not defined %}
-                        <li class="nav-item mt-2">
+                        <li class="nav-item mt-2 mr-5">
                             <a class="nav-link  text-white" href="{{ path('security_login') }}">Connexion</a>
                         </li>
                     {% else %}
                         {% for role in app.user.roles if role == 'ROLE_USER' %}
-                            <li class="nav-item mt-2">
+                            <li class="nav-item mt-2 mr-5">
                                 <div class="dropdown">
                                     <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mon Compte</a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#">Mes Information</a>
-                                        <a class="dropdown-item" href="#">Forum</a>
+                                        <a class="dropdown-item" href="{{ path('security_login') }}">Mes Réservation</a>
                                         <a class="dropdown-item" href="{{ path('security_logout') }}">Déconnection</a>
                                     </div>
                                 </div>
                             </li>
                         {% endfor %}
                         {% for role in app.user.roles if role == 'ROLE_ADMIN' %}
-                            <li class="nav-item mt-2">
+                            <li class="nav-item mt-2 mr-5">
                                 <div class="dropdown">
                                     <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="{{ path('admin') }}">Back Office</a>
-                                        <a class="dropdown-item" href="#">Forum</a>
+                                        <a class="dropdown-item" href="{{ path('security_login') }}">Mes Réservation</a>
                                         <a class="dropdown-item" href="{{ path('security_logout') }}">Déconnection</a>
                                     </div>
                                 </div>
                             </li>
                         {% endfor %}
-                    {% endif %}
-                    {% if app.user.roles is not defined %}
-                        <li class="nav-item mt-2">
-                            <a class="nav-link  text-white" href="{{ path('security_login') }}">Mes Réservation</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item mt-2">
-                            <a class="nav-link  text-white" href="{{ path('reservation') }}">Réservation</a>
-                        </li>
                     {% endif %}
                 </ul>
             </div>

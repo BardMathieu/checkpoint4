@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Spectacle;
 use App\Form\Spectacle1Type;
 use App\Repository\SpectacleRepository;
+use App\Service\Picturefiles;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
