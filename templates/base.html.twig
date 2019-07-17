@@ -23,7 +23,7 @@
                         <a class="nav-link  text-white" href="/#performances">Performances</a>
                     </li>
                     <li class="nav-item mt-2">
-                        <a class="nav-link  text-white" href="#">About Us</a>
+                        <a class="nav-link  text-white" href="/#spectacles">Nos Spectacles</a>
                     </li>
                     <li class="nav-item mt-2">
                         <a class="nav-link  text-white" href="{{ path('contact') }}">Contact</a>
@@ -58,9 +58,15 @@
                             </li>
                         {% endfor %}
                     {% endif %}
-                    <li class="nav-item mt-2">
-                        <a class="nav-link  text-white" href="#">Réservation</a>
-                    </li>
+                    {% if app.user.roles is not defined %}
+                        <li class="nav-item mt-2">
+                            <a class="nav-link  text-white" href="{{ path('security_login') }}">Mes Réservation</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item mt-2">
+                            <a class="nav-link  text-white" href="{{ path('reservation') }}">Réservation</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             {% if app.user.roles is defined %}

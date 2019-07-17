@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Spectacle index{% endblock %}
+
+{% block body %}
+    <h1>Spectacle index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ville</th>
+                <th>Image</th>
+                <th>Place</th>
+                <th>Prixp12</th>
+                <th>Prixm12</th>
+                <th>Prixgroup</th>
+                <th>Prixschool</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for spectacle in spectacles %}
+            <tr>
+                <td>{{ spectacle.id }}</td>
+                <td>{{ spectacle.ville }}</td>
+                <td>{{ spectacle.Image }}</td>
+                <td>{{ spectacle.place }}</td>
+                <td>{{ spectacle.prixp12 }}</td>
+                <td>{{ spectacle.prixm12 }}</td>
+                <td>{{ spectacle.prixgroup }}</td>
+                <td>{{ spectacle.prixschool }}</td>
+                <td>{{ spectacle.date }}</td>
+                <td>
+                    <a href="{{ path('spectacle_show', {'id': spectacle.id}) }}">show</a>
+                    <a href="{{ path('spectacle_edit', {'id': spectacle.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('spectacle_new') }}">Create new</a>
+{% endblock %}

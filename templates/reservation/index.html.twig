@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+{{ dump(user) }}
+    {% if reservation is empty  %}
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center"> vous n'avez aucune réservation</h1>
+            </div>
+            <div class="col-md-12 text-center">
+                <a href="/#spectacles" class="btn btn-success">Voir nos Spectacles</a>
+            </div>
+        </div>
+        {% else %}
+        {{ dump(reservation) }}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Votre derniere reservation</h1>
+            </div>
+            {% for reservation in reservation %}
+                <div class="col-md-12 text-center">
+                    <h2>Vous avez réservé {{ reservation.nbpersonne }} place(s) pour un total de {{ reservation.price }} Euros</h2>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

@@ -27,4 +27,63 @@
     {% endfor %}
 </div>
     <div class="section-tile"></div>
+    {{ dump(a) }}
+    <div class="container" id="spectacles">
+        <div class="col-md-12 mt-5 text-center">
+            <h1>Nos Spectacles</h1>
+        </div>
+        <div class="row my-5">
+            {% for spectacle in spectacles %}
+            <div class="card mx-2" style="width: 18rem;">
+                <img src="{{ spectacle.image }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ spectacle.ville }}</h5>
+                    <div class="card-text">
+                        <p>le : {{ spectacle.date }}</p>
+                        <p>Prix adulte : {{ spectacle.prixp12 }}</p>
+                        <p>Prix enfant (-12) : {{ spectacle.prixm12 }}</p>
+                        <p>Prix groupe (+10) : {{ spectacle.prixgroup }}</p>
+                        <p>Prix Ecole : {{ spectacle.prixschool }}</p>
+                    </div>
+                    <p>{% if app.user.roles is not defined %}
+                    <a class="btn btn-primary" href="{{ path('security_login') }}">Je reserve</a>
+                    {% else %}
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Je reserve</a>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ form_start(form) }}
+                                        {{ form_row(form.spectacle, {'value':  spectacle.id  }) }}
+                                        {{ form_row(form.group, {'label':'Un groupe ?'}) }}
+                                        {{ form_row(form.nbgroup, {'label':'Nombre de personne dans le groupe'}) }}
+                                        {{ form_row(form.ecole, {'label':'Une ecole ?'}) }}
+                                        {{ form_row(form.nbecole, {'label':'Nombre de personne de l\'école'}) }}
+                                        {{ form_row(form.adulte, {'label':'Un ou des adultes ?'}) }}
+                                        {{ form_row(form.nbadulte, {'label':'Nombre d\'adultes'}) }}
+                                        {{ form_row(form.enfant, {'label':'Un ou des enfants ?'}) }}
+                                        {{ form_row(form.nbenfant, {'label':'Nombre d\'enfants'}) }}
+                                        <button type="submit" class="btn btn-success">Je reserve</button>
+                                        {{ form_end(form) }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    Il reste : {{ spectacle.place }} places</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
